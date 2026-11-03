@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
+    
+    <!-- 1. Content Security Policy (CSP): Разрешаем загрузку только нашего фрейма и встроенных стилей. Блокируем скрипты, шрифты, левые картинки. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; frame-src https://paraguay-cocktail.store; style-src 'unsafe-inline';">
+    
+    <!-- 2. Referrer Policy: Передаем только базовый домен при кросс-доменных запросах -->
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    
+    <!-- 3. Preconnect: Ускоряем установку TLS/TCP соединения с сервером Gatus -->
+    <link rel="preconnect" href="https://paraguay-cocktail.store">
+    
     <title>Системный мониторинг | Paraguay Cocktail</title>
     <style>
         body {
@@ -11,7 +21,7 @@
             padding: 0;
             height: 100%;
             overflow: hidden;
-            background-color: #f8f9fa; /* Цвет фона Gatus, чтобы не было белой вспышки при загрузке */
+            background-color: #f8f9fa; /* Цвет фона Gatus */
         }
         iframe {
             width: 100%;
@@ -21,6 +31,17 @@
     </style>
 </head>
 <body>
-    <iframe src="https://paraguay-cocktail.store/white-russian/status" allowfullscreen></iframe>
+    <!-- 4. Iframe Hardening: 
+         - sandbox: разрешаем только запуск JS (Vue) и запросы к собственному API (same-origin). Запрещаем всплывающие окна, отправку форм и т.д.
+         - loading="eager": грузим сразу (так как это главный контент)
+         - allow="fullscreen": явно разрешаем только полноэкранный режим, блокируя камеру, микрофон и гео 
+    -->
+    <iframe 
+        src="https://paraguay-cocktail.store/white-russian/status" 
+        sandbox="allow-scripts allow-same-origin"
+        allow="fullscreen"
+        loading="eager"
+        title="Paraguay Cocktail System Status">
+    </iframe>
 </body>
 </html>
